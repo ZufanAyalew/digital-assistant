@@ -1,0 +1,22 @@
+function sendMessage() {
+    const userInput = document.getElementById("userInput");
+    const messages = document.getElementById("messages");
+
+    const userMessage = userInput.value;
+    if (!userMessage) return;
+
+    const userDiv = document.createElement("div");
+    userDiv.className = "user-message";
+    userDiv.textContent = `You: ${userMessage}`;
+
+    messages.appendChild(userDiv);
+
+    // Replace this with AI processing and response logic
+    const assistantMessage = document.createElement("div");
+    assistantMessage.className = "assistant-message";
+    assistantMessage.textContent = "Assistant: Hello! How can I assist you?";
+
+    messages.appendChild(assistantMessage);
+
+    userInput.value = "";
+}
