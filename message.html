@@ -1,22 +1,40 @@
 function sendMessage() {
-    const userInput = document.getElementById("userInput");
-    const messages = document.getElementById("messages");
+  const userInput = document.getElementById("userInput");
+  const messages = document.getElementById("messages");
+  const userMessage = userInput.value;
+  
+  if (!userMessage) return;
 
-    const userMessage = userInput.value;
-    if (!userMessage) return;
+  // Display user message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-message";
+  userDiv.textContent = You: ${userMessage};
+  messages.appendChild(userDiv);
 
-    const userDiv = document.createElement("div");
-    userDiv.className = "user-message";
-    userDiv.textContent = `You: ${userMessage}`;
+  // Replace this with AI processing and response logic
+  processUserMessage(userMessage);
 
-    messages.appendChild(userDiv);
+  userInput.value = "";
+}
 
-    // Replace this with AI processing and response logic
-    const assistantMessage = document.createElement("div");
-    assistantMessage.className = "assistant-message";
-    assistantMessage.textContent = "Assistant: Hello! How can I assist you?";
-
-    messages.appendChild(assistantMessage);
-
-    userInput.value = "";
+function processUserMessage(message) {
+  // Send user message to the server for AI processing
+  fetch("/process-message", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message })
+  })
+    .then(response => response.json())
+    .then(response => {
+      // Display AI assistant message
+      const assistantMessage = document.createElement("div");
+      assistantMessage.className = "assistant-message";
+      assistantMessage.textContent = Assistant: ${response.message};
+      messages.appendChild(assistantMessage);
+    })
+    .catch(error => {
+      console.error("Error processing message:", error);
+    });
 }
